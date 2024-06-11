@@ -36,11 +36,11 @@ func TestSparseSetContains(t *testing.T) {
 
 func TestSparseSetRange(t *testing.T) {
 	ss := sparse_set.NewSparseSet(32)
-	for idx := range 10 {
+	for idx := 0; idx < 10; idx++ {
 		ss.Add(idx * 2)
 	}
 
-	var expectedValues []int = []int{0, 2, 4, 6, 8, 10, 12, 14, 16, 18}
+	expectedValues := []int{0, 2, 4, 6, 8, 10, 12, 14, 16, 18}
 
 	i := 0
 	ss.Range(func(id sparse_set.Id) {
@@ -78,7 +78,7 @@ func TestGetValues(t *testing.T) {
 	ss.Remove(4)
 	ss.Add(10)
 
-	expectedValues := [...]int{1, 13, 10}
+	expectedValues := []int{1, 13, 10}
 
 	for idx, value := range ss.GetAll() {
 		if expectedValues[idx] != value {
@@ -100,7 +100,7 @@ func TestGetValues(t *testing.T) {
 
 func TestClear(t *testing.T) {
 	ss := sparse_set.NewSparseSet(32)
-	for i := range 32 {
+	for i := 0; i < 32; i++ {
 		ss.Add(i)
 	}
 
@@ -108,5 +108,4 @@ func TestClear(t *testing.T) {
 	if len(ss.GetAll()) != 0 {
 		t.Error("Values in sparse set after flush (.Clear())")
 	}
-
 }
