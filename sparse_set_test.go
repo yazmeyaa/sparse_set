@@ -66,3 +66,47 @@ func TestRemove(t *testing.T) {
 		t.Error("Value exist after element remove")
 	}
 }
+
+func TestGetValues(t *testing.T) {
+	/*
+		---------- Test accessibility ----------
+	*/
+	ss := sparse_set.NewSparseSet(32)
+	ss.Add(1)
+	ss.Add(4)
+	ss.Add(13)
+	ss.Remove(4)
+	ss.Add(10)
+
+	expectedValues := [...]int{1, 13, 10}
+
+	for idx, value := range ss.GetAll() {
+		if expectedValues[idx] != value {
+			t.Error("Wrong value found in slice")
+		}
+	}
+
+	/*
+		---------- Mutation test ----------
+	*/
+
+	slice := ss.GetAll()
+	slice[0] = 14
+
+	if !ss.Contains(1) {
+		t.Error("Value must be in sparse set")
+	}
+}
+
+func TestClear(t *testing.T) {
+	ss := sparse_set.NewSparseSet(32)
+	for i := range 32 {
+		ss.Add(i)
+	}
+
+	ss.Clear()
+	if len(ss.GetAll()) != 0 {
+		t.Error("Values in sparse set after flush (.Clear())")
+	}
+
+}
